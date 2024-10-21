@@ -42,6 +42,8 @@ class Level:
                 pygame.draw.rect(screen, (200,200,200), square["rectValue"])
             elif square["type"] == "Spawn":
                 pygame.draw.rect(screen, (0,0,255), square["rectValue"])
+            elif square["type"] == "Safe":
+                pygame.draw.rect(screen, (0,255,0), square["rectValue"])
     
     def setPlayer(self, player):
         self.player = player
@@ -75,6 +77,9 @@ class Level:
         elif key == K_n:
             print(f"None {currentPos}")
             changedTile["type"] = "None"
+        elif key == K_o:
+            print(f"Safe {currentPos}")
+            changedTile["type"] = "Safe"
     
     def setCurrentTile(self, x, y):
         self.currentTile = [s for s in self.grid if s["i"] == x and s["j"] == y][0]

@@ -33,6 +33,8 @@ class Level:
                 pygame.draw.rect(screen, (200,200,200), square["rectValue"])
             elif square["type"] == "Spawn":
                 pygame.draw.rect(screen, (0,0,255), square["rectValue"])
+            elif square["type"] == "Safe":
+                pygame.draw.rect(screen, (0,255,0), square["rectValue"])
     
     def setPlayer(self, player):
         self.player = player
