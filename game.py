@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from lupa.lua54 import LuaRuntime
 from classes.level import Level
 from classes.player import Player
 
@@ -21,6 +22,10 @@ def reset():
     Level.spawnCoordinates = (1, 1)
 
 def main(levelfile: str):
+    lua = LuaRuntime(unpack_returned_tuples=True)
+    with open('mods/mod.lua', "r") as r:
+        lua.execute(r.read())
+
     pygame.init()
 
     slices = 20
@@ -38,8 +43,19 @@ def main(levelfile: str):
 
     pygame.display.set_caption("Thin Ice")
 
+    lua.globals().getTile = level.getTile
+    lua.globals().setTileType = level.setTileType
+    lua.globals().playerMove = player.playerMove
+    lua.globals().getPosition = player.getPosition
+
+    with open('mods/mod.lua', 'r') as r:
+        lua.execute(r.read())
+    
+    if lua.globals().start != None:
+        lua.globals().start()
+
     running = True
-    finalStatus = ""
+    finalStatus = "Unfinished"
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -70,10 +86,12 @@ def main(levelfile: str):
             running = False
             finalStatus = "Win"
         
+        if lua.globals().update != None:
+            lua.globals().update(currentTick)
+
         level.draw(window)
         level.checkCurrentTile()
         player.draw(window)
-
 
         pygame.display.flip()
         clock.tick(60)

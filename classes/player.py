@@ -52,4 +52,6 @@ class Player:
                 if self.level.getTile(self.currentGridX + 1, self.currentGridY)["type"] != "Wall":
                     self.currentGridX += 1
                     self.level.setCurrentTile(self.currentGridX, self.currentGridY)
-        
+    
+    def getPosition(self):
+        return [self.currentGridX, self.currentGridY]

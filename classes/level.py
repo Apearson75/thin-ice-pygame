@@ -67,6 +67,14 @@ class Level:
 
     def getTile(self, x, y):
         return [s for s in self.grid if s["i"] == x and s["j"] == y][0]
+    
+    def getTileIndex(self, x, y):
+        return [i for i,s in enumerate(self.grid) if s["i"] == x and s["j"] == y][0]
+    
+    def setTileType(self, x, y, type):
+        i = self.getTileIndex(x, y)
+        self.grid[i]["type"] = type
+
 
 def drawStyleRect(surface, x, y):
     pygame.draw.rect(surface, (0,0,0), (x,y,150,150), 1)
